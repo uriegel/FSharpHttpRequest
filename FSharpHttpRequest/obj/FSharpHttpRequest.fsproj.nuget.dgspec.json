@@ -1,0 +1,65 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/uwe/Projekte/FSharpHttpRequest/FSharpHttpRequest/FSharpHttpRequest.fsproj": {}
+  },
+  "projects": {
+    "/home/uwe/Projekte/FSharpHttpRequest/FSharpHttpRequest/FSharpHttpRequest.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/uwe/Projekte/FSharpHttpRequest/FSharpHttpRequest/FSharpHttpRequest.fsproj",
+        "projectName": "FSharpHttpRequest",
+        "projectPath": "/home/uwe/Projekte/FSharpHttpRequest/FSharpHttpRequest/FSharpHttpRequest.fsproj",
+        "packagesPath": "/home/uwe/.nuget/packages/",
+        "outputPath": "/home/uwe/Projekte/FSharpHttpRequest/FSharpHttpRequest/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/uwe/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "/home/uwe/.dotnet/sdk/6.0.402/FSharp/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[6.0.6, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/uwe/.dotnet/sdk/6.0.402/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
