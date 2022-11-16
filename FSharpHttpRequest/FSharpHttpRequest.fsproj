@@ -1,6 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-<PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
     <OutputType>dll</OutputType>
     <AssemblyName>FSharpHttpRequest</AssemblyName>
     <OutputType>Library</OutputType>
@@ -24,17 +23,15 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>FS0067</NoWarn>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
-
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="Error.fs" />
+    <Compile Include="Client.fs" />
+    <Compile Include="Request.fs" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\" />
     <None Include="..\LICENSE">
@@ -43,6 +40,7 @@
       </PackagePath>
     </None>
   </ItemGroup>
-
-
+  <ItemGroup>
+    <PackageReference Include="FSharpTools" Version="8.1.1" />
+  </ItemGroup>
 </Project>
