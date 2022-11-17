@@ -1,9 +1,9 @@
 module Tests
 
 open Xunit
+open Xunit.Abstractions
 
 open FSharpHttpRequest
-open Xunit.Abstractions
 
 type ClassDataBase(generator : obj [] seq) = 
     interface seq<obj []> with
