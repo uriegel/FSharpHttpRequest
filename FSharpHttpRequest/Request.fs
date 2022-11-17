@@ -21,6 +21,7 @@ module Request =
             Minor = 0 
         }
         Headers = None
+        AddContent = None
     }
 
     let createRequest settings = 
@@ -45,6 +46,11 @@ module Request =
 
     let request settings =     
         let request = createRequest settings
+
+        match settings.AddContent with
+        | Some addContent -> request.Content <- addContent ()
+        | None            -> ()
+
         addHeaders request settings
 
         Client.get()

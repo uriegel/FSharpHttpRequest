@@ -13,11 +13,11 @@ type Header = {
 }
 
 type Settings = {
-    Method:  HttpMethod
-    BaseUrl: string option
-    Url:     string
-    Version: Version
-    Headers: Header array option
-    // TODO Callback to add Content
+    Method:     HttpMethod
+    BaseUrl:    string option
+    Url:        string
+    Version:    Version
+    Headers:    Header array option
+    AddContent: (Unit->HttpContent) option
 }
 
