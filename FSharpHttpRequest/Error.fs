@@ -1,7 +1,19 @@
 namespace FSharpHttpRequest
 
 open System
+open System.Net
+open System.Net.Http
+open System.Net.Sockets
 open System.Threading.Tasks
+
+open FSharpTools
+open FSharpTools.Option
+
+type Status = {
+    Code: HttpStatusCode
+    Text: string
+    Msg:  HttpResponseMessage
+}
 
 type Error = 
     | Timeout
@@ -9,12 +21,9 @@ type Error =
     | InvalidOperation of string
     | SocketError      of string
     | Exception        of Exception
+    | Status           of Status
 
 module ErrorExt =
-    open System.Net.Http
-    open System.Net.Sockets
-    open FSharpTools.Option
-
     let socketExceptionToError (hre: HttpRequestException) (se: SocketException) =
         match se with
         | se when se.SocketErrorCode = SocketError.HostNotFound -> HostNotFound hre.Message
@@ -31,4 +40,10 @@ module ErrorExt =
         | :? TaskCanceledException -> Timeout
         | :? HttpRequestException as hre -> httpRequestExnToError hre
         | _ as exn -> Exception exn
+
+    let fromResponse (msg: HttpResponseMessage) =
+        match msg.StatusCode with
+        | HttpStatusCode.OK -> Ok msg
+        | _                 -> Error <| Status { Code = msg.StatusCode; Text = msg.ReasonPhrase; Msg = msg} 
+        
 

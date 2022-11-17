@@ -4,13 +4,9 @@ open System.Net.Http
 
 open FSharpTools
 open AsyncResult
+open ErrorExt
 
 module Request = 
-    open FSharpTools.Async
-    // TODO Result<exn> to Result<HttpRequestError> 
-    // SocketError with Message and Code and exn
-    // Exception exn
-    // StatusCode <> null
 
     let defaultSettings = {
         Method = HttpMethod.Get
@@ -57,9 +53,11 @@ module Request =
             Client
                 .get()
                 .SendAsync request
+
         sendAsync 
         |> catch
         |> mapError ErrorExt.fromException
+        >>= (fromResponse >> Async.toAsync)
 
     let getString settings = 
         let getString (responseMessage: HttpResponseMessage) = 
@@ -67,7 +65,6 @@ module Request =
             read
             |> catch
             |> mapError ErrorExt.fromException
-            
 
         request settings
         >>= getString

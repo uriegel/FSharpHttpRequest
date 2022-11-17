@@ -13,13 +13,13 @@ type ClassDataBase(generator : obj [] seq) =
 
 type getStringUrls () = 
     inherit ClassDataBase([ 
-        [| null; 34 |]        
-        [| ""; 34 |]        
-        [| "dump"; 34 |]        
-        [| "http://nodomain.no"; 34 |]        
-        [| "https://caesar2go.caseris.de:999"; 34 |]        
-        [| "https://caesar2go.caseris.de/nopath"; 34 |]        
-        [| "http://checkip.dyndns.org"; 34 |] 
+        [| null; true |]        
+        [| ""; true |]        
+        [| "dump"; true |]        
+        [| "http://nodomain.no"; true |]        
+        [| "https://caesar2go.caseris.de:999"; true |]        
+        [| "https://caesar2go.caseris.de/nopath"; true |]        
+        [| "http://checkip.dyndns.org"; true |] 
     ])
 
 type Tests(output: ITestOutputHelper) =
@@ -34,7 +34,7 @@ type Tests(output: ITestOutputHelper) =
             | Ok ok  -> output.WriteLine (sprintf "OK:\n%s" ok)
             | Error err -> 
                 output.WriteLine (sprintf "Err:\n%O" err)
-            Assert.Equal(34, result)
+            Assert.Equal(true, result)
         } 
         |> Async.RunSynchronously   
         
