@@ -1,68 +1,60 @@
 namespace FSharpHttpRequest
 
-open System
 open System.Net.Http
-open System.Threading.Tasks
 
 open FSharpTools
-open FSharpTools.Functional
 open AsyncResult
+open Async
 
 module Request = 
-
     // TODO Result<exn> to Result<HttpRequestError> 
     // SocketError with Message and Code and exn
     // Exception exn
     // StatusCode <> null
 
-    type KeyValue = {
-        Key: string
-        Value: string
+    let defaultSettings = {
+        Method = HttpMethod.Get
+        BaseUrl = None
+        Url = ""
+        Version = { 
+            Major = 2
+            Minor = 0 
+        }
+        Headers = None
     }
 
-    // TODO FSharpTools
-    let toResult (task: Task<'a>) = 
-        let continueFrom ((ok: Result<'a, exn> -> Unit), _, _) = 
-            let continueWith (task: Task<'a>) =
-                let result = 
-                    if task.IsCompletedSuccessfully then
-                        Ok task.Result
-                    elif task.IsFaulted && task.Exception.InnerException <> null then
-                        Error task.Exception.InnerException
-                    elif task.IsFaulted then
-                        Error task.Exception
-                    elif task.IsCanceled then
-                        Error <| TaskCanceledException ()
-                    else
-                        Error <| Exception ()
-                ok result
-            task.ContinueWith continueWith 
-            |> ignore
+    let createRequest settings = 
 
-        Async.FromContinuations continueFrom
+        let msg = new HttpRequestMessage (
+            settings.Method,
+            (settings.BaseUrl |> Option.defaultValue "") + settings.Url)
+        msg.Version <- System.Version(settings.Version.Major, settings.Version.Minor)
+        msg
 
+    let addHeaders msg settings = 
+        let addHeader (msg: HttpRequestMessage) header =
+            if msg.Headers.TryAddWithoutValidation(header.Key, header.Value) = false then
+                if msg.Content <> null then
+                    msg.Content.Headers.TryAddWithoutValidation(header.Key, header.Value) |> ignore
 
-    let getGet (uri: string) = new HttpRequestMessage (HttpMethod.Get, uri)
+        match settings.Headers with
+        | Some headers -> 
+            headers
+            |> Array.iter (addHeader msg)
+        | None -> ()
 
-    let get uri (headers: KeyValue array) =
-    
-        let request = getGet uri 
-        let addHeader keyValue = 
-            request.Headers.TryAddWithoutValidation(keyValue.Key, [|keyValue.Value|])
-            |> ignore
-
-        headers
-        |> Array.iter addHeader
+    let request settings =     
+        let request = createRequest settings
+        addHeaders request settings
 
         Client.get()
             .SendAsync request
             |> toResult
 
-
-    let getString headers uri = 
+    let getString settings = 
         let getString (responseMessage: HttpResponseMessage) = async {
             return! responseMessage.Content.ReadAsStringAsync () |> Async.AwaitTask
         }
 
-        get uri headers 
+        request settings
         |>> getString
