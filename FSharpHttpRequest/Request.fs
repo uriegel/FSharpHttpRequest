@@ -4,7 +4,6 @@ open System.Net.Http
 
 open FSharpTools
 open AsyncResult
-open Async
 
 module Request = 
     // TODO Result<exn> to Result<HttpRequestError> 
@@ -53,17 +52,15 @@ module Request =
 
         addHeaders request settings
 
-        Client.get()
-            .SendAsync request
-            |> toResult
+        let sendAsync () = 
+            Client
+                .get()
+                .SendAsync request
+        sendAsync 
+        |> catch
 
     let getString settings = 
         let getString (responseMessage: HttpResponseMessage) = async {
-
-
-            //do! Async.Sleep 10_000
-
-
             return! responseMessage.Content.ReadAsStringAsync () |> Async.AwaitTask
         }
 

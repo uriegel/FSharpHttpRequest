@@ -14,8 +14,8 @@ type ClassDataBase(generator : obj [] seq) =
 type getStringUrls () = 
     inherit ClassDataBase([ 
         [| null; 34 |]        
-        // [| ""; 34 |]        
-        // [| "dump"; 34 |]        
+        [| ""; 34 |]        
+        [| "dump"; 34 |]        
         [| "http://nodomain.no"; 34 |]        
       //  [| "https://caesar2go.caseris.de:999"; 34 |]        
         [| "https://caesar2go.caseris.de/nopath"; 34 |]        
