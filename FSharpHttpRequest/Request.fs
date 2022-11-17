@@ -59,6 +59,11 @@ module Request =
 
     let getString settings = 
         let getString (responseMessage: HttpResponseMessage) = async {
+
+
+            //do! Async.Sleep 10_000
+
+
             return! responseMessage.Content.ReadAsStringAsync () |> Async.AwaitTask
         }
 

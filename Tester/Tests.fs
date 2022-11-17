@@ -2,9 +2,42 @@ module Tests
 
 open Xunit
 
-[<Fact>]
-let ``My test`` () =
-    Assert.True(true)
+open FSharpHttpRequest
+open Xunit.Abstractions
 
-[<Fact>]
-let ``Fail every time`` () = Assert.True(false)
+type ClassDataBase(generator : obj [] seq) = 
+    interface seq<obj []> with
+        member this.GetEnumerator() = generator.GetEnumerator()
+        member this.GetEnumerator() = 
+            generator.GetEnumerator() :> System.Collections.IEnumerator
+
+type getStringUrls () = 
+    inherit ClassDataBase([ 
+        // [| null; 34 |]        
+        // [| ""; 34 |]        
+        // [| "dump"; 34 |]        
+        [| "http://nodomain.no"; 34 |]        
+      //  [| "https://caesar2go.caseris.de:999"; 34 |]        
+        [| "https://caesar2go.caseris.de/nopath"; 34 |]        
+        [| "http://checkip.dyndns.org"; 3456 |] 
+    ])
+
+type Tests(output: ITestOutputHelper) =
+    [<Theory>]
+    [<ClassData(typeof<getStringUrls>)>]
+    let ``let getString (url, result)`` (url, result) = 
+        output.WriteLine (sprintf "\n=================================================================\ngetString - %s\n" url)
+        async {
+            let settings = { Request.defaultSettings with Url = url }
+        
+            match! Request.getString settings with
+            | Ok ok  -> output.WriteLine (sprintf "OK:\n%s" ok)
+            | Error err -> 
+                let affe = exn
+                output.WriteLine (sprintf "Err:\n%s" err.Message)
+                ()
+            Assert.Equal(34, result)
+        } 
+        |> Async.RunSynchronously   
+        
+        
