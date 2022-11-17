@@ -17,7 +17,7 @@ type getStringUrls () =
         [| ""; 34 |]        
         [| "dump"; 34 |]        
         [| "http://nodomain.no"; 34 |]        
-      //  [| "https://caesar2go.caseris.de:999"; 34 |]        
+        [| "https://caesar2go.caseris.de:999"; 34 |]        
         [| "https://caesar2go.caseris.de/nopath"; 34 |]        
         [| "http://checkip.dyndns.org"; 34 |] 
     ])
@@ -33,7 +33,7 @@ type Tests(output: ITestOutputHelper) =
             match! Request.getString settings with
             | Ok ok  -> output.WriteLine (sprintf "OK:\n%s" ok)
             | Error err -> 
-                output.WriteLine (sprintf "Err:\n%s" err.Message)
+                output.WriteLine (sprintf "Err:\n%O" err)
             Assert.Equal(34, result)
         } 
         |> Async.RunSynchronously   

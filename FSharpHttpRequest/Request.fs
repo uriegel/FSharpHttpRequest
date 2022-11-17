@@ -6,6 +6,7 @@ open FSharpTools
 open AsyncResult
 
 module Request = 
+    open FSharpTools.Async
     // TODO Result<exn> to Result<HttpRequestError> 
     // SocketError with Message and Code and exn
     // Exception exn
@@ -44,25 +45,29 @@ module Request =
         | None -> ()
 
     let request settings =     
-        let request = createRequest settings
-
-        match settings.AddContent with
-        | Some addContent -> request.Content <- addContent ()
-        | None            -> ()
-
-        addHeaders request settings
-
         let sendAsync () = 
+            let request = createRequest settings
+
+            match settings.AddContent with
+            | Some addContent -> request.Content <- addContent ()
+            | None            -> ()
+
+            addHeaders request settings
+
             Client
                 .get()
                 .SendAsync request
         sendAsync 
         |> catch
+        |> mapError ErrorExt.fromException
 
     let getString settings = 
-        let getString (responseMessage: HttpResponseMessage) = async {
-            return! responseMessage.Content.ReadAsStringAsync () |> Async.AwaitTask
-        }
+        let getString (responseMessage: HttpResponseMessage) = 
+            let read () = responseMessage.Content.ReadAsStringAsync ()
+            read
+            |> catch
+            |> mapError ErrorExt.fromException
+            
 
         request settings
-        |>> getString
+        >>= getString
