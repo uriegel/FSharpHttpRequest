@@ -4,9 +4,9 @@
     <AssemblyName>FSharpHttpRequest</AssemblyName>
     <OutputType>Library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <Version>0.0.1-beta-1</Version>
-    <FileVersion>0.0.1</FileVersion>
-    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <Version>1.1.0</Version>
+    <FileVersion>1.1.0</FileVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <Authors>Uwe Riegel</Authors>
     <Company>Uwe Riegel</Company>
     <Copyright>Uwe Riegel</Copyright>
@@ -31,6 +31,7 @@
     <Compile Include="Error.fs" />
     <Compile Include="Client.fs" />
     <Compile Include="Settings.fs" />
+    <Compile Include="BasicAuthentication.fs" />
     <Compile Include="Request.fs" />
   </ItemGroup>
   <ItemGroup>
