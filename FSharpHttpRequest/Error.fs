@@ -16,12 +16,12 @@ type Status = {
 }
 
 type Error = 
-    | Timeout
-    | HostNotFound     of string
-    | InvalidOperation of string
-    | SocketError      of string
-    | Exception        of Exception
-    | Status           of Status
+| Timeout
+| HostNotFound     of string
+| InvalidOperation of string
+| SocketError      of string
+| Exception        of Exception
+| Status           of Status
 
 module ErrorExt =
     let socketExceptionToError (hre: HttpRequestException) (se: SocketException) =

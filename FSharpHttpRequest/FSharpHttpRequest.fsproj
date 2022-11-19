@@ -43,6 +43,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharpTools" Version="9.1.0" />
+    <PackageReference Include="FSharpTools" Version="9.2.1" />
   </ItemGroup>
 </Project>

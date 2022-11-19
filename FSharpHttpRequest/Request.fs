@@ -30,9 +30,9 @@ module Request =
 
     let addHeaders msg settings = 
         let addHeader (msg: HttpRequestMessage) header =
-            if msg.Headers.TryAddWithoutValidation(header.Key, header.Value) = false then
+            if msg.Headers.TryAddWithoutValidation (header.Key, header.Value) = false then
                 if msg.Content <> null then
-                    msg.Content.Headers.TryAddWithoutValidation(header.Key, header.Value) |> ignore
+                    msg.Content.Headers.TryAddWithoutValidation (header.Key, header.Value) |> ignore
 
         match settings.Headers with
         | Some headers -> 
@@ -64,7 +64,7 @@ module Request =
             let read () = responseMessage.Content.ReadAsStringAsync ()
             read
             |> catch
-            |> mapError ErrorExt.fromException
+            |> mapError fromException
 
         request settings
         >>= getString
